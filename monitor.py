@@ -11,6 +11,8 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 
 def fetch_products():
+    url = f"https://www2.hm.com/services/productlist/v2/pl_pl/category/{CATEGORY_ID}?offset=0&pagesize=100"
+
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
         "Accept": "application/json",
@@ -20,13 +22,14 @@ def fetch_products():
         "Connection": "keep-alive"
     }
 
-    r = requests.get(API_URL, headers=headers)
+    r = requests.get(url, headers=headers)
 
-    # Debug — zobaczysz w logach Railway co zwraca H&M
     print("STATUS:", r.status_code)
     print("BODY:", r.text[:300])
 
-    return r.json()["products"]
+    data = r.json()
+    return data["results"]
+
 
 
 
@@ -114,4 +117,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
