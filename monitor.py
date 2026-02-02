@@ -11,9 +11,23 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 
 def fetch_products():
-    r = requests.get(API_URL, headers={"User-Agent": "Mozilla/5.0"})
-    data = r.json()
-    return data["products"]
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "Accept": "application/json",
+        "Accept-Language": "pl-PL,pl;q=0.9,en;q=0.8",
+        "Referer": "https://www2.hm.com/",
+        "Origin": "https://www2.hm.com",
+        "Connection": "keep-alive"
+    }
+
+    r = requests.get(API_URL, headers=headers)
+
+    # Debug — zobaczysz w logach Railway co zwraca H&M
+    print("STATUS:", r.status_code)
+    print("BODY:", r.text[:300])
+
+    return r.json()["products"]
+
 
 
 def load_history():
@@ -100,3 +114,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
