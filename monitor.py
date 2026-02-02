@@ -10,25 +10,18 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 
-def fetch_products():
-    url = f"https://www2.hm.com/services/productlist/v2/pl_pl/category/{CATEGORY_ID}?offset=0&pagesize=100"
+import requests
 
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-        "Accept": "application/json",
-        "Accept-Language": "pl-PL,pl;q=0.9,en;q=0.8",
-        "Referer": "https://www2.hm.com/",
-        "Origin": "https://www2.hm.com",
-        "Connection": "keep-alive"
-    }
+SCRAPER_API_KEY = "1bbcc17ee6175043f79329cce2ac4263"  # <-- wklej tu swój klucz ScraperAPI
 
-    r = requests.get(url, headers=headers)
+def fetch_test():
+    url = "https://www2.hm.com/pl_pl/on/produkty/spodnie.html"
+    proxy_url = f"http://api.scraperapi.com?api_key={SCRAPER_API_KEY}&url={url}"
 
+    r = requests.get(proxy_url)
     print("STATUS:", r.status_code)
-    print("BODY:", r.text[:300])
+    print("BODY:", r.text[:500])  # pierwsze 500 znaków HTML
 
-    data = r.json()
-    return data["results"]
 
 
 
@@ -116,6 +109,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    fetch_test()
+
 
 
